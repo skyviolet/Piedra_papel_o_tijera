@@ -1,76 +1,60 @@
+const outcomeDiv =document.querySelector(".outcome")
+const playerScoreSpan = document.querySelector(".player-score")
+const computerScoreSpan = document.querySelector(".computer-score")
+const buttons = document.querySelectorAll("button")
 const options = ["paper", "rock", "scissor"]
+
 function getComputerChoice(){
     const choice = options[Math.floor(Math.random()*options.length)];
     return choice;
 }
+
+let computerScore = 0;
+let playerScore = 0;
 function winner(playerSelection, computerSelection){
-    if (playerSelection == computerSelection) {
-        return "tie";
+    const p = document.createElement("p")
+    if (playerSelection === computerSelection) {
+        p.innerText = `It's a tie! You both picked ${playerSelection}`
     }
     else if (
-        (playerSelection == "rock" && computerSelection == "scissor") ||
-        (playerSelection == "paper" && computerSelection == "rock") ||
-        (playerSelection == "scissor" && computerSelection == "paper")
+        (playerSelection === "rock" && computerSelection === "scissor") ||
+        (playerSelection === "paper" && computerSelection === "rock") ||
+        (playerSelection === "scissor" && computerSelection === "paper")
      ){
-        return "player";
+        playerScore ++
+        p.innerText = `You won! ${playerSelection} wins ${computerSelection}`
      }
      else {
-        return "computer";
+        computerScore ++
+        p.innerText = `You lost! ${computerSelection} wins ${playerSelection}`
      }
+     outcomeDiv.appendChild(p)
 }
-function round (playerSelection, computerSelection){
-    const result = winner(playerSelection, computerSelection);
-    if (result == "tie"){
-        return "It's a tie!";
+
+const checkForWinner = (playerScore, computerScore) => {
+    const h2 =document.createElement("h2")
+    if (playerScore === 3){
+        h2.classList.add("player-won")
+        h2.innerText = `You won ${playerScore} to ${computerScore}`
     }
-    else if (result == "player"){
-        return "You win!";
+    else if (computerScore === 3 ){
+        h2.classList.add("computer-won")
+        h2.innerText = `You lost ${playerScore} to ${computerScore}`
     }
-    else {
-        return "I win :p";
-    }
+    outcomeDiv.append(h2)
 }
-round()
-function playerchoice(){
-    let imput = false;
-    while(imput == false){
-        const choice = prompt("Rock Paper Scissor");
-        if (choice == null){
-            continue;
-        }
-    const lower = choice.toLowerCase();
-    if (options.includes(lower)){
-        imput = true;
-        return lower;
-    }
-    }
+
+const updateScores = (playerScore, computerScore) => {
+    playerScoreSpan.innerText = `Player Score: ${playerScore}`
+    computerScoreSpan.innerText = `Computer Score : ${computerScore}`
 }
-function game(){
-    let scoreplayer = 0;
-    let scorecomputer = 0;
-    console.log('Welcome!');
-    for (let i=0; i<5; i++){
-        const playerSelection = playerchoice();
-        const computerSelection = getComputerChoice();
-        console.log(round(playerSelection, computerSelection));
-        console.log("________")
-        if (winner(playerSelection, computerSelection) == "player") {
-            scoreplayer++;
-        }
-        else if (winner(playerSelection, computerSelection) == "computer") {
-            scorecomputer++;
-        }
-        }
-        console.log("GAME OVER")
-        if (scoreplayer > scorecomputer){
-            console.log("You are the winner ¡CONGRATULATIONS!");
-        }
-        else if (scorecomputer > scoreplayer) {
-            console.log("I'm the winner :p");
-        }
-        else {
-            console.log("We have a tie");
-        }
-    }
-    
-game()
+
+buttons.forEach(button => {
+    button.addEventListener("click", ()=>{
+        const computerSelection = getComputerChoice()
+        const playerSelection = `${button.className}`
+        winner(playerSelection, computerSelection)
+        updateScores(playerScore, computerScore)
+        checkForWinner( playerScore, computerScore)
+    })
+})
