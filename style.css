@@ -1,0 +1,39 @@
+body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    background-color: #1b1b1b;
+    font-family: 'Caveat', cursive;
+}
+
+#btn {
+    transition: all 0.3s ease-in-out;
+    font-family: 'Caveat', cursive;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 0px;
+  }
+  
+#btn {
+    width: 150px;
+    height: 60px;
+    border-radius: 50px;
+    background-image: linear-gradient(135deg, #ffe222 0%, #f68727 100%);
+    box-shadow: 0 10px 20px -10px #ffa564;
+    outline: none;
+    cursor: pointer;
+    border: none;
+    font-size: 24px;
+    color: white;
+  }
+  
+#btn:hover{
+    transform: translateY(3px);
+    box-shadow: none;
+  }
+  
+#btn:active {
+    opacity: 0.5;
+  }
